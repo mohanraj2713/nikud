@@ -113,7 +113,7 @@ export default function DashboardLayout() {
       <MainStyle collapseClick={collapseClick}>
         <Outlet />
       </MainStyle>
-      <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
+      <Paper sx={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} elevation={3}>
         <Stack direction="row" alignItems="center" spacing={{ xs: 0.5, sm: 1.5 }}>
           <Link href="#">Terms and conditions</Link>
         </Stack>

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
-import { Input, Slide, Button, InputAdornment, ClickAwayListener, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Input, Slide, Button, InputAdornment, ClickAwayListener } from '@mui/material';
 // utils
 import cssStyles from '../../../utils/cssStyles';
 // components
@@ -45,56 +45,17 @@ export default function Searchbar() {
   };
 
   return (
-    // <ClickAwayListener onClickAway={handleClose}>
+    <ClickAwayListener onClickAway={handleClose}>
       <div>
         {!isOpen && (
           <IconButtonAnimate onClick={handleOpen}>
-            <Iconify icon={'octicon:organization-16'} width={20} height={20} />
+            <Iconify icon={'eva:search-fill'} width={20} height={20} />
           </IconButtonAnimate>
         )}
 
-        <Slide direction="down" in={isOpen}
-        // mountOnEnter unmountOnExit
-        >
+        <Slide direction="down" in={isOpen} mountOnEnter unmountOnExit>
           <SearchbarStyle>
-            <FormControl fullWidth size='small'>
-              <InputLabel id="demo-simple-select-label">Organization</InputLabel>
-              <Select
-                size='small'
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Organization"
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>&nbsp;
-            <FormControl fullWidth size='small'>
-              <InputLabel id="demo-simple-select-label">Unit</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Unit"
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>&nbsp;
-            <FormControl fullWidth size='small'>
-              <InputLabel id="demo-simple-select-label">Roll</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                label="Roll"
-              >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
-              </Select>
-            </FormControl>
-            {/* <Input
+            <Input
               autoFocus
               fullWidth
               disableUnderline
@@ -111,13 +72,10 @@ export default function Searchbar() {
             />
             <Button variant="contained" onClick={handleClose}>
               Search
-            </Button> */}
-            <IconButtonAnimate onClick={handleClose}>
-              <Iconify icon={'carbon:close-filled'} width={20} height={20} />
-            </IconButtonAnimate>
+            </Button>
           </SearchbarStyle>
         </Slide>
       </div>
-    // </ClickAwayListener>
+    </ClickAwayListener>
   );
 }
