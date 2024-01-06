@@ -31,7 +31,7 @@ export default function Maintenance() {
 
           <MaintenanceIllustration sx={{ my: 10, height: 240 }} />
 
-          <Button variant="contained" size="large" component={RouterLink} to="/">
+          <Button variant="contained" size="large" component={RouterLink} to="/dashboard">
             Go to Home
           </Button>
         </Container>

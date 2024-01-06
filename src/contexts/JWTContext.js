@@ -71,17 +71,19 @@ function AuthProvider({ children }) {
       try {
         const accessToken = window.localStorage.getItem('accessToken');
 
-        if (accessToken && isValidToken(accessToken)) {
+        if (accessToken 
+          // && isValidToken(accessToken)
+          ) {
           setSession(accessToken);
 
-          const response = await axios.get('/api/account/my-account');
-          const { user } = response.data;
+          // const response = await axios.get('/api/account/my-account');
+          // const { user } = response.data;
 
           dispatch({
             type: 'INITIALIZE',
             payload: {
               isAuthenticated: true,
-              user,
+              // user,
             },
           });
         } else {
@@ -109,13 +111,15 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
-      email,
-      password,
-    });
-    const { accessToken, user } = response.data;
+    // const response = await axios.post('/api/account/login', {
+    //   email,
+    //   password,
+    // });
+    // const { accessToken, user } = response.data;
 
-    setSession(accessToken);
+    const user  = "response";
+
+    setSession("accessToken");
     dispatch({
       type: 'LOGIN',
       payload: {
@@ -143,6 +147,7 @@ function AuthProvider({ children }) {
   };
 
   const logout = async () => {
+    window.localStorage.clear();
     setSession(null);
     dispatch({ type: 'LOGOUT' });
   };

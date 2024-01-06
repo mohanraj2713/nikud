@@ -90,5 +90,3 @@ export const PATH_DASHBOARD = {
     demoView: path(ROOTS_DASHBOARD, '/blog/post/apply-these-7-secret-techniques-to-improve-event'),
   },
 };
-
-export const PATH_DOCS = 'https://docs-minimals.vercel.app/introduction';
