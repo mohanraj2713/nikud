@@ -3,7 +3,7 @@ import { useState } from 'react';
 // ----------------------------------------------------------------------
 
 export default function useTable(props) {
-  const [dense, setDense] = useState(props?.defaultDense || false);
+  const [dense, setDense] = useState(props?.defaultDense || true);
 
   const [orderBy, setOrderBy] = useState(props?.defaultOrderBy || 'name');
 
