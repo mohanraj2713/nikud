@@ -64,6 +64,8 @@ export default function Router() {
       children: [
         { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
         { path: 'app', element: <GeneralApp /> },
+        { path: 'one', element: <DemoPage /> },
+        { path: 'two', element: <GeneralApp /> },
       ],
     },
     // Main Routes
@@ -92,6 +94,7 @@ const VerifyCode = Loadable(lazy(() => import('../pages/auth/VerifyCode')));
 
 // GENERAL
 const GeneralApp = Loadable(lazy(() => import('../pages/dashboard/GeneralApp')));
+const DemoPage = Loadable(lazy(() => import('../pages/dashboard/DemoPage')));
 
 // MAIN
 const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
