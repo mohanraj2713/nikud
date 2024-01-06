@@ -2,8 +2,6 @@
 import { Stack, Button, Typography } from '@mui/material';
 // hooks
 import useAuth from '../../../hooks/useAuth';
-// routes
-import { PATH_DOCS } from '../../../routes/paths';
 // assets
 import { DocIllustration } from '../../../assets';
 
@@ -29,9 +27,6 @@ export default function NavbarDocs() {
         </Typography>
       </div>
 
-      <Button href={PATH_DOCS} target="_blank" rel="noopener" variant="contained">
-        Documentation
-      </Button>
     </Stack>
   );
 }
