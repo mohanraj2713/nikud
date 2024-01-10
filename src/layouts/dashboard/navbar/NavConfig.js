@@ -148,6 +148,7 @@ const sidebarConfig = [
       { title: 'One', path: '/dashboard/one', icon: ICONS.dashboard },
       { title: 'Two', path: '/dashboard/two', icon: ICONS.dashboard },
       { title: 'Three', path: '/dashboard/three', icon: ICONS.dashboard },
+      { title: 'Four', path: '/dashboard/four', icon: ICONS.dashboard },
     ],
   },
 
@@ -182,6 +183,11 @@ const sidebarConfig = [
           { title: 'Six', path: '/dashboard/user/six' },
         ],
       },
+      {
+        title: 'admin',
+        path: '/user/profile',
+        icon: ICONS.user,
+      }
     ],
   },
 ];

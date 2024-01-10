@@ -214,7 +214,7 @@ function EnhancedTableToolbar(props) {
             ) : (
                 <Tooltip title="Filter list">
                     <IconButton>
-                        <Iconify icon={'eva:trash-2-outline'} />
+                        <Iconify icon={'ic:round-filter-list'} />
                     </IconButton>
                 </Tooltip>
             )}

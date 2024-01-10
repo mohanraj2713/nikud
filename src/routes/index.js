@@ -68,6 +68,18 @@ export default function Router() {
         { path: 'two', element: <GeneralApp /> },
       ],
     },
+    {
+      path: 'user',
+      element: (
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+        { path: 'profile', element: <Profile /> },
+      ],
+    },
     // Main Routes
     {
       path: '*',
@@ -101,3 +113,7 @@ const ComingSoon = Loadable(lazy(() => import('../pages/ComingSoon')));
 const Maintenance = Loadable(lazy(() => import('../pages/Maintenance')));
 const Page500 = Loadable(lazy(() => import('../pages/Page500')));
 const NotFound = Loadable(lazy(() => import('../pages/Page404')));
+
+
+// USER
+const Profile = Loadable(lazy(()=>import('../pages/user/ProfilePage')))
