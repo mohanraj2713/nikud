@@ -38,6 +38,7 @@ import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/l
 import ModalDialogue from '../../components/dialogue/ModalComponent';
 import TableComponent from '../../components/custom-table/TableComponent';
 import CustomeTableComponent from '../../components/custom-table/CustomTableComponent';
+import DynamicTableComponent from '../../components/custom-table/Table';
 
 // ----------------------------------------------------------------------
 
@@ -269,9 +270,18 @@ export default function DemoPage() {
 
             </ModalDialogue>
 
-            <TableComponent/>
+            <TableComponent />
 
-            <CustomeTableComponent/>
+            <CustomeTableComponent />
+
+            <DynamicTableComponent header={[
+                { id: 'name', label: 'Name', align: 'left' },
+                { id: 'company', label: 'Company', align: 'left' },
+                { id: 'role', label: 'Role', align: 'left' },
+                { id: 'isVerified', label: 'Verified', align: 'center' },
+                { id: 'status', label: 'Status', align: 'left' },
+                { id: '' },
+            ]} TABLE_DATA={_userList}/>
 
         </Page>
     );

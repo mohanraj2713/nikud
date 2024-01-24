@@ -146,9 +146,6 @@ const sidebarConfig = [
     subheader: 'general',
     items: [
       { title: 'One', path: '/dashboard/one', icon: ICONS.dashboard },
-      { title: 'Two', path: '/dashboard/two', icon: ICONS.dashboard },
-      { title: 'Three', path: '/dashboard/three', icon: ICONS.dashboard },
-      { title: 'Four', path: '/dashboard/four', icon: ICONS.dashboard },
     ],
   },
 
@@ -157,37 +154,96 @@ const sidebarConfig = [
   {
     subheader: 'management',
     items: [
+      // {
+      //   title: 'user',
+      //   path: '/dashboard/user',
+      //   icon: ICONS.user,
+      //   children: [
+      //     {
+      //       title: 'Four',
+      //       path: '/dashboard/Four',
+      //       children: [
+      //         {
+      //           title: 'Four-One',
+      //           path: '/dashboard/Four',
+      //           children: [
+      //             { title: 'Four-One-One', path: '/dashboard/Four' },
+      //             { title: 'Four-One-Two', path: '/dashboard/Four' },
+      //             { title: 'Four-One-Three', path: '/dashboard/Four' },
+      //           ],
+      //         },
+      //         { title: 'Four-Two', path: '/dashboard/Four' },
+      //         { title: 'Four-Three', path: '/dashboard/Four' },
+      //       ],
+      //     },
+      //     { title: 'Five', path: '/dashboard/user/five' },
+      //     { title: 'Six', path: '/dashboard/user/six' },
+      //   ],
+      // },
       {
-        title: 'user',
-        path: '/dashboard/user',
+        title: 'home',
+        path: '/home',
+        icon: ICONS.user,
+      },
+      {
+        title: 'fee',
+        path: '/fee',
+        icon: ICONS.user,
+      },
+      {
+        title: 'student',
+        path: '/student',
         icon: ICONS.user,
         children: [
           {
-            title: 'Four',
-            path: '/dashboard/Four',
-            children: [
-              {
-                title: 'Four-One',
-                path: '/dashboard/Four',
-                children: [
-                  { title: 'Four-One-One', path: '/dashboard/Four' },
-                  { title: 'Four-One-Two', path: '/dashboard/Four' },
-                  { title: 'Four-One-Three', path: '/dashboard/Four' },
-                ],
-              },
-              { title: 'Four-Two', path: '/dashboard/Four' },
-              { title: 'Four-Three', path: '/dashboard/Four' },
-            ],
+            title: 'Details', 
+            path: '/student/details',
           },
-          { title: 'Five', path: '/dashboard/user/five' },
-          { title: 'Six', path: '/dashboard/user/six' },
+          { title: 'Admission', path: '/student/admission' },
+          { title: 'Address', path: '/student/address' },
+          { title: 'Contact', path: '/student/contact' },
+          { title: 'Schools Attended', path: '/student/attendance' },
+          { title: 'Family', path: '/student/family' },
+          { title: 'Health', path: '/student/health' },
+          { title: 'Documents', path: '/student/document' },
+          { title: 'ID Info', path: '/student/id' },
         ],
+      },
+      {
+        title: 'staff',
+        path: '/staff',
+        icon: ICONS.user,
+      },
+      {
+        title: 'time table',
+        path: '/time-table',
+        icon: ICONS.user,
+      },
+      {
+        title: 'attendance',
+        path: '/attendance',
+        icon: ICONS.user,
+      },
+      {
+        title: 'exam',
+        path: '/exam',
+        icon: ICONS.user,
+      },
+      {
+        title: 'help',
+        path: '/help',
+        icon: ICONS.user,
       },
       {
         title: 'admin',
         path: '/user/profile',
         icon: ICONS.user,
-      }
+      },
+      // {
+      //   title: 'admission',
+      //   path: '/student/admission',
+      //   icon: ICONS.user,
+      // }
     ],
   },
 ];

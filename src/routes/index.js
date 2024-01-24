@@ -12,6 +12,7 @@ import { PATH_AFTER_LOGIN } from '../config';
 // components
 import LoadingScreen from '../components/LoadingScreen';
 
+
 // ----------------------------------------------------------------------
 
 const Loadable = (Component) => (props) => {
@@ -80,6 +81,26 @@ export default function Router() {
         { path: 'profile', element: <Profile /> },
       ],
     },
+    {
+      path: 'student',
+      element: (
+        <AuthGuard>
+          <DashboardLayout />
+        </AuthGuard>
+      ),
+      children: [
+        { element: <Navigate to={PATH_AFTER_LOGIN} replace />, index: true },
+        { path: 'admission', element: <StudentAdmission /> },
+        { path: 'address', element: <StudentAddress /> },
+        { path: 'attendance', element: <StudentAttendance /> },
+        { path: 'contact', element: <StudentContact /> },
+        { path: 'details', element: <StudentDetails /> },
+        { path: 'document', element: <StudentDocument /> },
+        { path: 'family', element: <StudentFamily /> },
+        { path: 'health', element: <StudentHealth /> },
+        { path: 'id', element: <StudentID /> },
+      ],
+    },
     // Main Routes
     {
       path: '*',
@@ -92,7 +113,7 @@ export default function Router() {
         { path: '*', element: <Navigate to="/404" replace /> },
       ],
     },
-    { path: '*', element: <Navigate to="/404" replace /> },
+    { path: '/', element: <Navigate to="/auth/login" replace /> },
   ]);
 }
 
@@ -116,4 +137,17 @@ const NotFound = Loadable(lazy(() => import('../pages/Page404')));
 
 
 // USER
-const Profile = Loadable(lazy(()=>import('../pages/user/ProfilePage')))
+const Profile = Loadable(lazy(() => import('../pages/user/ProfilePage')))
+
+// STUDENT
+
+const StudentAdmission = Loadable(lazy(() => import('../pages/student/AdmissionPage')))
+const StudentDetails = Loadable(lazy(() => import('../pages/student/DetailsPage')))
+const StudentAddress = Loadable(lazy(() => import('../pages/student/AddressPage')))
+const StudentAttendance = Loadable(lazy(() => import('../pages/student/AttendancePage')))
+const StudentContact = Loadable(lazy(() => import('../pages/student/ContactPage')))
+const StudentDocument = Loadable(lazy(() => import('../pages/student/DocumentPage')))
+const StudentFamily = Loadable(lazy(() => import('../pages/student/FamilyPage')))
+const StudentHealth = Loadable(lazy(() => import('../pages/student/HealthPage')))
+const StudentID = Loadable(lazy(() => import('../pages/student/IDPage')))
+
