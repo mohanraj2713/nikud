@@ -21,7 +21,7 @@ const MD = "md"
 const XL = "xl"
 const XS = "xs"
 
-const StudentDocumentPage = ({ isEdit, data }) => {
+const StudentDetailsPage = ({ isEdit, data }) => {
     const navigate = useNavigate();
     const { enqueueSnackbar } = useSnackbar();
     const [isOpen, setIsOpen] = useState(false)
@@ -135,9 +135,9 @@ const StudentDocumentPage = ({ isEdit, data }) => {
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                    <Grid item xl={3} lg={3} md={3} sm={12} xs={12}>
+                    <Grid item xl={3} lg={3} md={3} sm={12} xs={12} display={"flex"} justifyContent={"center"} alignItems={"center"}>
 
-                        <Box sx={{ mb: 5 }}>
+                        <Box>
                             <RHFUploadAvatar
                                 name="avatarUrl"
                                 accept="image/*"
@@ -451,4 +451,4 @@ const StudentDocumentPage = ({ isEdit, data }) => {
 
 }
 
-export default StudentDocumentPage
+export default StudentDetailsPage

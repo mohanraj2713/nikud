@@ -35,6 +35,7 @@ import HeaderBreadcrumbs from '../HeaderBreadcrumbs';
 import { TableEmptyRows, TableHeadCustom, TableNoData, TableSelectedActions } from '../table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../sections/@dashboard/user/list';
+import CustomTableRow from '../../sections/@dashboard/user/list/CustomTableRow';
 
 // ----------------------------------------------------------------------
 
@@ -83,7 +84,7 @@ const DynamicTableComponent = (props) => {
     const navigate = useNavigate();
     const [tableData, setTableData] = useState(TABLE_DATA);
     const [TABLE_HEAD, setTableHead] = useState(header)
-    
+
     const [fullWidth, setFullWidth] = useState(true)
 
     const { currentTab: filterStatus, onChangeTab: onChangeFilterStatus } = useTabs('all');
@@ -97,7 +98,7 @@ const DynamicTableComponent = (props) => {
         tableData,
         comparator: getComparator(order, orderBy)
     });
-    
+
     const handleDeleteRow = (id) => {
         const deleteRow = tableData.filter((row) => row.id !== id);
         setSelected([]);
@@ -160,8 +161,17 @@ const DynamicTableComponent = (props) => {
                         />
 
                         <TableBody>
-                            {dataFiltered && dataFiltered.length > 0 && dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                                <UserTableRow
+                            {dataFiltered && dataFiltered.length > 0 && dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (<>
+                                {/* <UserTableRow
+                                    key={row.id}
+                                    row={row}
+                                    selected={selected.includes(row.id)}
+                                    onSelectRow={() => onSelectRow(row.id)}
+                                    onDeleteRow={() => handleDeleteRow(row.id)}
+                                    onEditRow={() => handleEditRow(row.name)}
+                                /> */}
+                                <CustomTableRow
+                                    header={TABLE_HEAD}
                                     key={row.id}
                                     row={row}
                                     selected={selected.includes(row.id)}
@@ -169,6 +179,8 @@ const DynamicTableComponent = (props) => {
                                     onDeleteRow={() => handleDeleteRow(row.id)}
                                     onEditRow={() => handleEditRow(row.name)}
                                 />
+                                
+                            </>
                             ))}
 
                             <TableEmptyRows height={denseHeight} emptyRows={emptyRows(page, rowsPerPage, tableData ? tableData.length : 0)} />
