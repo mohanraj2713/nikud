@@ -9,7 +9,7 @@ import { Box, Button, Card, FormControl, Grid, InputLabel, MenuItem, Select, Sta
 import HeaderBreadcrumbs from "../../components/HeaderBreadcrumbs"
 import Page from "../../components/Page"
 import CardComponent from "../../components/card/CardComponent"
-import { RHFUploadAvatar, FormProvider } from "../../components/hook-form"
+import { RHFUploadAvatar, FormProvider, RHFTextField, RHFSelect } from "../../components/hook-form"
 import { PATH_DASHBOARD } from '../../routes/paths';
 import { fData } from '../../utils/formatNumber';
 import ModalDialogue from '../../components/dialogue/ModalComponent';
@@ -27,33 +27,45 @@ const StudentDetailsPage = ({ isEdit, data }) => {
     const [isOpen, setIsOpen] = useState(false)
     const [fullWidth, setFullWidth] = useState(true)
     const NewUserSchema = Yup.object().shape({
-        name: Yup.string().required('Name is required'),
-        email: Yup.string().required('Email is required').email(),
-        phoneNumber: Yup.string().required('Phone number is required'),
-        address: Yup.string().required('Address is required'),
-        country: Yup.string().required('country is required'),
-        company: Yup.string().required('Company is required'),
-        state: Yup.string().required('State is required'),
-        city: Yup.string().required('City is required'),
-        role: Yup.string().required('Role Number is required'),
-        avatarUrl: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
+        First_Name: Yup.string().required('Name is required'),
+        Last_Name: Yup.string().required('Last Name is required'),
+        Middle_Name: Yup.string().required('Middle Name is required'),
+        Short_Name: Yup.string().required('Short Name is required'),
+        Date_Of_Birth: Yup.string().required('Date of birth is required'),
+        Gender: Yup.string().required('Gender is required'),
+        Nationality: Yup.string().required('Nationality is required'),
+        Blood_Group: Yup.string().required('Blood group is required'),
+        Religion: Yup.string().required('Religion Number is required'),
+        Category: Yup.string().required('Category number is required'),
+        Caste: Yup.string().required('Caste is required'),
+        Sub_Caste: Yup.string().required('Sub caste is required'),
+        Quote: Yup.string().required('Quote is required'),
+        Concession_Type: Yup.string().required('Concession type is required'),
+        Aadhaar_Card_No: Yup.string().required('Aadhaar card number is required'),
+        EMIS_NO: Yup.string().required('EMIs No Number is required'),
+        Avatar_Url: Yup.mixed().test('required', 'Avatar is required', (value) => value !== ''),
     });
 
     const defaultValues = useMemo(
         () => ({
-            name: data?.name || '',
-            email: data?.email || '',
-            phoneNumber: data?.phoneNumber || '',
-            address: data?.address || '',
-            country: data?.country || '',
-            state: data?.state || '',
-            city: data?.city || '',
-            zipCode: data?.zipCode || '',
-            avatarUrl: data?.avatarUrl || '',
-            isVerified: data?.isVerified || true,
-            status: data?.status,
-            company: data?.company || '',
-            role: data?.role || '',
+            First_Name: data?.First_Name || 'Mohanraj',
+            Last_Name: data?.Last_Name || 'Selvaraj',
+            Middle_Name: data?.Middle_Name || '.',
+            Short_Name: data?.Short_Name || 'Mohanraj Selvaraj',
+            Date_Of_Birth: data?.Date_Of_Birth || '1997-07-27',
+            Gender: data?.Gender || 'MALE',
+            Nationality: data?.Nationality || 'INDIA',
+            Blood_Group: data?.Blood_Group || 'B+',
+            Religion: data?.Religion || 'Hindu',
+            Category: data?.Category || 'MBC',
+            Caste: data?.Caste || 'Vanniyar',
+            Sub_Caste: data?.Sub_Caste || 'Padaiyatchi',
+            Quote: data?.Quote || 'Defence',
+            Concession_Type: data?.Concession_Type || 'AD HOC Concession',
+            Aadhaar_Card_No: data?.Aadhaar_Card_No || '918240099745',
+            EMIS_NO: data?.EMIS_NO || '123455',
+            Avatar_Url: data?.avatarUrl || '',
+
         }),
         // eslint-disable-next-line react-hooks/exhaustive-deps
         [data]
@@ -85,12 +97,13 @@ const StudentDetailsPage = ({ isEdit, data }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [isEdit, data]);
 
-    const onSubmit = async () => {
+    const onSubmit = async (values) => {
         try {
-            await new Promise((resolve) => setTimeout(resolve, 500));
-            reset();
-            enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-            navigate(PATH_DASHBOARD.user.list);
+            console.log('form values', values)
+            // await new Promise((resolve) => setTimeout(resolve, 500));
+            // reset();
+            // enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+            // navigate(PATH_DASHBOARD.user.list);
         } catch (error) {
             console.error(error);
         }
@@ -102,7 +115,7 @@ const StudentDetailsPage = ({ isEdit, data }) => {
 
             if (file) {
                 setValue(
-                    'avatarUrl',
+                    'Avatar_Url',
                     Object.assign(file, {
                         preview: URL.createObjectURL(file),
                     })
@@ -128,9 +141,9 @@ const StudentDetailsPage = ({ isEdit, data }) => {
                 }
             />
 
-            <Box sx={{ my: 1 }} display={"flex"} justifyContent={"end"}>
+            {/* <Box sx={{ my: 1 }} display={"flex"} justifyContent={"end"}>
                 <Button sx={{ mx: 1 }} variant='outlined' color='secondary' onClick={() => setIsOpen(true)}>Change Name & DOB</Button>
-            </Box>
+            </Box> */}
 
             <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
 
@@ -139,7 +152,7 @@ const StudentDetailsPage = ({ isEdit, data }) => {
 
                         <Box>
                             <RHFUploadAvatar
-                                name="avatarUrl"
+                                name="Avatar_Url"
                                 accept="image/*"
                                 maxSize={3145728}
                                 onDrop={handleDrop}
@@ -164,238 +177,84 @@ const StudentDetailsPage = ({ isEdit, data }) => {
 
                     </Grid>
                     <Grid item xs={12} md={9} lg={9} xl={9} >
-                        <Grid container>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="First Name"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Middle Name"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Last Name"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Short Name"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Date of Birth"
-                                    type="date"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Gender</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Gender"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"MALE"}>MALE</MenuItem>
-                                        <MenuItem value={"FEMALE"}>FEMALE</MenuItem>
-                                        <MenuItem value={"OTHERS"}>OTHERS</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Nationality</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Nationality"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"INDIA"}>INDIA</MenuItem>
-                                        <MenuItem value={"AUSTRALIA"}>AUSTRALIA</MenuItem>
-                                        <MenuItem value={"ENGLAND"}>ENGLAND</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Blood Group</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Blood Group"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"A+"}>A+</MenuItem>
-                                        <MenuItem value={"B+"}>B+</MenuItem>
-                                        <MenuItem value={"AB-"}>AB-</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Religion</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Religion"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"Hindu"}>Hindu</MenuItem>
-                                        <MenuItem value={"Muslim"}>Muslim</MenuItem>
-                                        <MenuItem value={"Christian"}>Christian</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Category</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Category"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"MBC"}>MBC</MenuItem>
-                                        <MenuItem value={"BC"}>BC</MenuItem>
-                                        <MenuItem value={"SC"}>SC</MenuItem>
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Caste"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Sub Caste"
-                                    type="number"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Quota</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Quota"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"Defence"}>Defence</MenuItem>
-                                       
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <FormControl fullWidth>
-                                    <InputLabel id="demo-simple-select-label">Concession Type</InputLabel>
-                                    <Select
-                                        labelId="demo-simple-select-label"
-                                        id="demo-simple-select"
-                                        value={""}
-                                        label="Concession Type"
-                                        InputLabelProps={{
-                                            shrink: true,
-                                        }}
-                                        onChange={() => { }}
-                                    >
-                                        <MenuItem value={"AD HOC Concession"}>AD HOC Concession</MenuItem>
-                                      
-                                    </Select>
-                                </FormControl>
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="Aadhaar Card No"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={6} sm={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 2 }}>
-                                <TextField
-                                    fullWidth
-                                    id="outlined-number"
-                                    label="EMIS No"
-                                    type="text"
-                                    InputLabelProps={{
-                                        shrink: true,
-                                    }}
-                                />
-                            </Grid>
-                        </Grid>
+                        <Card style={{boxShadow:"none"}} sx={{ p: 3 }}>
+                            <Box
+                                sx={{
+                                    display: 'grid',
+                                    columnGap: 2,
+                                    rowGap: 3,
+                                    gridTemplateColumns: { xs: 'repeat(1, 1fr)', sm: 'repeat(2, 1fr)', md: 'repeat(3, 1fr)', lg: 'repeat(3, 1fr)', xl: 'repeat(4, 1fr)' },
+                                }}
+                            >
+                                <RHFTextField name="First_Name" label="First Name" InputLabelProps={{ shrink: true }} />
+                                <RHFTextField name="Middle_Name" label="Middle Name" InputLabelProps={{ shrink: true }} />
+                                <RHFTextField name="Last_Name" label="Last Name" InputLabelProps={{ shrink: true }} />
+                                <RHFTextField name="Short_Name" label="Short Name" InputLabelProps={{ shrink: true }} />
+                                <RHFTextField name="Date_Of_Birth" type="date" label="Date of Birth" InputLabelProps={{ shrink: true }} />
+                                <RHFSelect name="Gender" label="Gender" placeholder="Country" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"MALE"}>MALE</option>
+                                    <option value={"FEMALE"}>FEMALE</option>
+                                    <option value={"OTHERS"}>OTHERS</option>
+                                </RHFSelect>
+                                <RHFSelect name="Nationality" label="Nationality" placeholder="Nationality" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"INDIA"}>INDIA</option>
+                                    <option value={"AUSTRALIA"}>AUSTRALIA</option>
+                                    <option value={"ENGLAND"}>ENGLAND</option>
+                                </RHFSelect>
+                                <RHFSelect name="Blood_Group" label="Blood Group" placeholder="Blood Group" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"A+"}>A+</option>
+                                    <option value={"B+"}>B+</option>
+                                    <option value={"AB-"}>AB-</option>
+                                </RHFSelect>
+                                <RHFSelect name="Religion" label="Religion" placeholder="Religion" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"Hindu"}>Hindu</option>
+                                    <option value={"Muslim"}>Muslim</option>
+                                    <option value={"Christian"}>Christian</option>
+                                </RHFSelect>
+                                <RHFSelect name="Category" label="Category" placeholder="Category" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"MBC"}>MBC</option>
+                                    <option value={"BC"}>BC</option>
+                                    <option value={"SC"}>SC</option>
+                                </RHFSelect>
+                                <RHFTextField name="Caste" label="Caste" InputLabelProps={{shrink:true}} />
+                                <RHFTextField name="Sub_Caste" label="Sub Caste" InputLabelProps={{shrink:true}} />
+                                <RHFSelect name="Quote" label="Quote" placeholder="Quote" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"Defence"}>Defence</option>
+                                </RHFSelect>
+                                <RHFSelect name="Concession_Type" label="Concession Type" placeholder="Concession Type" InputLabelProps={{
+                                    shrink: true,
+                                }}>
+                                    <option value="" />
+                                    <option value={"AD HOC Concession"}>AD HOC Concession</option>
+                                </RHFSelect>
+                                <RHFTextField name="Aadhaar_Card_No" label="Aadhaar Card No" InputLabelProps={{shrink:true}} />
+                                <RHFTextField name="EMIS_NO" label="EMIS NO" InputLabelProps={{shrink:true}} />
+                            </Box>
+
+                            <Stack alignItems="flex-end" sx={{ mt: 3 }}>
+                                <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
+                                    {!isEdit ? 'Submit' : 'Save Changes'}
+                                </LoadingButton>
+                            </Stack>
+                        </Card>
                     </Grid>
                 </Grid>
 
@@ -436,11 +295,7 @@ const StudentDetailsPage = ({ isEdit, data }) => {
 
                 </ModalDialogue>
 
-                <Stack display={"flex"} justifyContent={"center"} alignItems={"center"} sx={{ mt: 3 }} width={"100%"}>
-                    <LoadingButton type="submit" variant="contained" loading={isSubmitting}>
-                        Submit
-                    </LoadingButton>
-                </Stack>
+              
 
             </FormProvider>
 

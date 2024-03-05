@@ -202,7 +202,7 @@ const sidebarConfig = [
           { title: 'Admission', path: '/student/admission' },
           { title: 'Address', path: '/student/address' },
           { title: 'Contact', path: '/student/contact' },
-          { title: 'Schools Attended', path: '/student/attendance' },
+          { title: 'Schools Attended part one school', path: '/student/attendance' },
           { title: 'Family', path: '/student/family' },
           { title: 'Health', path: '/student/health' },
           { title: 'Documents', path: '/student/document' },

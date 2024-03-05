@@ -19,6 +19,7 @@ import {
     TablePagination,
     FormControlLabel,
 } from '@mui/material';
+import { useSelector } from 'react-redux';
 // routes
 import { PATH_DASHBOARD } from '../../routes/paths';
 // hooks
@@ -39,6 +40,7 @@ import ModalDialogue from '../../components/dialogue/ModalComponent';
 import TableComponent from '../../components/custom-table/TableComponent';
 import CustomeTableComponent from '../../components/custom-table/CustomTableComponent';
 import DynamicTableComponent from '../../components/custom-table/Table';
+
 
 // ----------------------------------------------------------------------
 
@@ -76,6 +78,10 @@ const XL = "xl"
 const XS = "xs"
 
 export default function DemoPage() {
+
+    const userDetails = useSelector((state) => console.log("STATE",state));
+
+    console.log("USER",userDetails)
     const {
         dense,
         page,

@@ -1,4 +1,4 @@
-import { memo } from 'react';
+import { memo, useEffect, useState } from 'react';
 // @mui
 import { styled } from '@mui/material/styles';
 import { Container, AppBar } from '@mui/material';
@@ -28,10 +28,59 @@ const RootStyle = styled(AppBar)(({ theme }) => ({
 // ----------------------------------------------------------------------
 
 function NavbarHorizontal() {
+  const [routes, setRoutes] = useState([])
+  useEffect(() => {
+    const rName = []
+    const rou = []
+    const permission = localStorage.getItem("permission") ? JSON.parse(localStorage.getItem("permission")) : ""
+    permission.forEach((r, index) => {
+      if (!r.MethodName && !rName.includes(r.MenuHeadingID)) {
+        rou.push({
+          title: r.MenuHeading,
+          path: r.PageLink
+        })
+        rName.push(r.MenuHeadingID)
+      } else if (rName.includes(r.MenuHeadingID) && r.MethodName) {
+        const idx = rName.findIndex(item => item === r.MenuHeadingID)
+        if (!rou[idx].children) {
+          rou[idx].children = []
+        }
+        rou[idx].children.push(
+          {
+            title: r.MethodName.replace(/(?<!\s)([A-Z])/g, ' $1'),
+            path: r.PageLink,
+          },
+        )
+
+      }
+      else {
+        const idx = rName.findIndex(item => item === r.MenuHeadingID)
+        if (!rou[idx].children) {
+          rou[idx].children = []
+        }
+        rou[idx].children.push(
+          {
+            title: rou[idx].title,
+            path: r.PageLink,
+          },
+        )
+      }
+    })
+
+    const newRoute = [
+      {
+        subheader: 'management',
+        items: rou
+      }
+    ]
+
+    setRoutes(newRoute)
+  }, [])
+
   return (
     <RootStyle>
       <Container maxWidth={false}>
-        <NavSectionHorizontal navConfig={navConfig} />
+        <NavSectionHorizontal navConfig={routes} />
       </Container>
     </RootStyle>
   );

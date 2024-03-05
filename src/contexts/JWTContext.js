@@ -10,6 +10,7 @@ const initialState = {
   isAuthenticated: false,
   isInitialized: false,
   user: null,
+  roles: null
 };
 
 const handlers = {
@@ -19,22 +20,23 @@ const handlers = {
       ...state,
       isAuthenticated,
       isInitialized: true,
-      user,
+      user
     };
   },
   LOGIN: (state, action) => {
-    const { user } = action.payload;
-
+    const { user, permission } = action.payload;
     return {
       ...state,
       isAuthenticated: true,
       user,
+      roles: permission
     };
   },
   LOGOUT: (state) => ({
     ...state,
     isAuthenticated: false,
     user: null,
+    roles: null
   }),
   REGISTER: (state, action) => {
     const { user } = action.payload;
@@ -43,6 +45,7 @@ const handlers = {
       ...state,
       isAuthenticated: true,
       user,
+      roles: null
     };
   },
 };
@@ -66,24 +69,29 @@ AuthProvider.propTypes = {
 function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
 
+  // Get array of objects from localStorage
+  const getArrayFromLocalStorage = (key) => {
+    const storedValue = localStorage.getItem(key);
+    return storedValue ? JSON.parse(storedValue) : null;
+  };
+
+
+
   useEffect(() => {
     const initialize = async () => {
       try {
+        const permission = getArrayFromLocalStorage("permission")
         const accessToken = window.localStorage.getItem('accessToken');
+        const user = getArrayFromLocalStorage("user")
 
-        if (accessToken 
-          // && isValidToken(accessToken)
-          ) {
-          setSession(accessToken);
-
-          // const response = await axios.get('/api/account/my-account');
-          // const { user } = response.data;
-
+        if (accessToken && Object.keys(user).length > 0) {
+          setSession(accessToken, user, permission);
           dispatch({
             type: 'INITIALIZE',
             payload: {
               isAuthenticated: true,
-              // user,
+              user,
+              roles: permission
             },
           });
         } else {
@@ -92,16 +100,18 @@ function AuthProvider({ children }) {
             payload: {
               isAuthenticated: false,
               user: null,
+              roles: null
             },
           });
         }
       } catch (err) {
-        console.error(err);
+        console.error(err.message);
         dispatch({
           type: 'INITIALIZE',
           payload: {
             isAuthenticated: false,
             user: null,
+            roles: null
           },
         });
       }
@@ -111,21 +121,25 @@ function AuthProvider({ children }) {
   }, []);
 
   const login = async (email, password) => {
-    // const response = await axios.post('/api/account/login', {
-    //   email,
-    //   password,
-    // });
-    // const { accessToken, user } = response.data;
-
-    const user  = "response";
-
-    setSession("accessToken");
-    dispatch({
-      type: 'LOGIN',
-      payload: {
-        user,
-      },
+    const response = await axios.post('/api/Login', {
+      username: email,
+      password,
+      SourceFrom: "1",
+      EncodedPassword: "null"
     });
+    const { accessToken, UserRolesRespModel, UserDetRespModel, Message } = response.data;
+    if (Message === "Success") {
+      setSession("accessToken", UserDetRespModel, UserRolesRespModel);
+      dispatch({
+        type: 'LOGIN',
+        payload: {
+          user: UserDetRespModel[0],
+          permission: UserRolesRespModel
+        },
+      });
+    }
+
+
   };
 
   const register = async (email, password, firstName, lastName) => {
@@ -137,7 +151,6 @@ function AuthProvider({ children }) {
     });
     const { accessToken, user } = response.data;
 
-    window.localStorage.setItem('accessToken', accessToken);
     dispatch({
       type: 'REGISTER',
       payload: {

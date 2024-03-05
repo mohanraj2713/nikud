@@ -1,10 +1,11 @@
 import PropTypes from 'prop-types';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 // @mui
 import { Box, Drawer, Stack } from '@mui/material';
 import { styled, useTheme } from '@mui/material/styles';
 // hooks
+import useAuth from '../../../hooks/useAuth';
 import useCollapseDrawer from '../../../hooks/useCollapseDrawer';
 import useResponsive from '../../../hooks/useResponsive';
 // utils
@@ -19,6 +20,7 @@ import CollapseButton from './CollapseButton';
 import navConfig from './NavConfig';
 import NavbarAccount from './NavbarAccount';
 import NavbarDocs from './NavbarDocs';
+
 
 // ----------------------------------------------------------------------
 
@@ -40,11 +42,10 @@ NavbarVertical.propTypes = {
 
 export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
   const theme = useTheme();
-
+  const { isAuthenticated, user, roles } = useAuth();
   const { pathname } = useLocation();
-
+  const [routes, setRoutes] = useState([])
   const isDesktop = useResponsive('up', 'lg');
-
   const { isCollapse, collapseClick, collapseHover, onToggleCollapse, onHoverEnter, onHoverLeave } =
     useCollapseDrawer();
 
@@ -54,6 +55,54 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pathname]);
+
+  useEffect(() => {
+    const rName = []
+    const rou = []
+    const permission = localStorage.getItem("permission") ? JSON.parse(localStorage.getItem("permission")) : ""
+    permission.forEach((r, index) => {
+      if (!r.MethodName && !rName.includes(r.MenuHeadingID)) {
+        rou.push({
+          title: r.MenuHeading,
+          path: r.PageLink
+        })
+        rName.push(r.MenuHeadingID)
+      } else if (rName.includes(r.MenuHeadingID) && r.MethodName) {
+        const idx = rName.findIndex(item => item === r.MenuHeadingID)
+        if (!rou[idx].children) {
+          rou[idx].children = []
+        }
+        rou[idx].children.push(
+          {
+            title: r.MethodName.replace(/(?<!\s)([A-Z])/g, ' $1'),
+            path: r.PageLink,
+          },
+        )
+
+      }
+      else {
+        const idx = rName.findIndex(item => item === r.MenuHeadingID)
+        if (!rou[idx].children) {
+          rou[idx].children = []
+        }
+        rou[idx].children.push(
+          {
+            title: rou[idx].title,
+            path: r.PageLink,
+          },
+        )
+      }
+    })
+
+    const newRoute = [
+      {
+        subheader: 'management',
+        items: rou
+      }
+    ]
+
+    setRoutes(newRoute)
+  }, [])
 
   const renderContent = (
     <Scrollbar
@@ -86,7 +135,7 @@ export default function NavbarVertical({ isOpenSidebar, onCloseSidebar }) {
         <NavbarAccount isCollapse={isCollapse} />
       </Stack>
 
-      <NavSectionVertical navConfig={navConfig} isCollapse={isCollapse} />
+      <NavSectionVertical navConfig={routes} isCollapse={isCollapse} />
 
       <Box sx={{ flexGrow: 1 }} />
 

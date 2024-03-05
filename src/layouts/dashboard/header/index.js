@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 // @mui
 import { AppBar, Box, FormControl, InputLabel, MenuItem, Select, Stack, Toolbar } from '@mui/material';
@@ -15,6 +16,9 @@ import { IconButtonAnimate } from '../../../components/animate';
 //
 import AccountPopover from './AccountPopover';
 import Searchbar from './Searchbar';
+
+import axios from '../../../utils/axios';
+
 
 // ----------------------------------------------------------------------
 
@@ -55,9 +59,37 @@ DashboardHeader.propTypes = {
 
 export default function DashboardHeader({ onOpenSidebar, isCollapse = false, verticalLayout = false }) {
   const isOffset = useOffSetTop(HEADER.DASHBOARD_DESKTOP_HEIGHT) && !verticalLayout;
-
+  const [dropDownList, setDropDownList] = useState([])
   const isDesktop = useResponsive('up', 'lg');
 
+
+  useEffect(() => {
+    const currentUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : ""
+    getDropDownList(currentUser)
+  }, [])
+
+  const getDropDownList = async (user) => {
+
+    try {
+      const {data,status} = await axios.post('/api/Common/getfilldropdowns', {
+        LookUpName: "GetOrganizationsBasedonUser",
+        UserID: user[0].UserId,
+        OrgID: user[0].OrgId,
+        RoleID: user[0].RoleId,
+        UnitID: user[0].UnitId
+      });
+     
+      if (status ===200) {
+        setDropDownList(data.Result)
+      }
+
+    } catch (err) {
+      alert(err.message)
+    }
+
+  }
+
+  console.log("DropDownList", dropDownList)
   return (
     <RootStyle isCollapse={isCollapse} isOffset={isOffset} verticalLayout={verticalLayout}>
       <Toolbar
@@ -93,9 +125,12 @@ export default function DashboardHeader({ onOpenSidebar, isCollapse = false, ver
                 id="demo-simple-select"
                 label="Organization"
               >
-                <MenuItem value={10}>Ten</MenuItem>
-                <MenuItem value={20}>Twenty</MenuItem>
-                <MenuItem value={30}>Thirty</MenuItem>
+                {
+                  dropDownList.map((item) => {
+                    return <MenuItem value={item.Id}>{item.Value}</MenuItem>
+                  })
+                }
+
               </Select>
             </FormControl>&nbsp;
             <FormControl fullWidth size='small' sx={{ width: '100px' }}>

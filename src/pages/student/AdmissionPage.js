@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import PhoneInput from 'react-phone-number-input';
 // @mui
-import { Container, Typography, Grid, Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormControlLabel, Switch, Box } from '@mui/material';
+import { Container, Typography, Grid, Card, CardContent, TextField, FormControl, InputLabel, Select, MenuItem, Button, FormControlLabel, Switch, Box, OutlinedInput } from '@mui/material';
 // hooks
 import useSettings from '../../hooks/useSettings';
 // components
 import Page from '../../components/Page';
 import HeaderBreadcrumbs from '../../components/HeaderBreadcrumbs';
 import CardComponent from '../../components/card/CardComponent';
+import HorizontalLinearStepper from '../../components/stepper/StepperComponent';
+import StudentDetails from './admission/StudentDetails';
+import ParentDetails from './admission/ParentDetails';
+import AddressDetails from './admission/AddressDetails';
+import SiblingDetails from './admission/SiblingDetails';
 
 
 
@@ -20,6 +25,12 @@ export default function ProfilePage() {
   const handlePhoneChange = (value) => {
     setPhoneNumber(value);
   };
+  const content = [
+    { title: "Student Details", component: <StudentDetails /> },
+    { title: "Parent Details", component: <ParentDetails /> },
+    { title: "Sibling Details", component: <SiblingDetails /> },
+    { title: "Address Details", component: <AddressDetails /> },
+  ]
 
 
   return (
@@ -38,183 +49,10 @@ export default function ProfilePage() {
         }
       />
 
-      <CardComponent title={"Basic Admission Details"} >
+      <HorizontalLinearStepper steps={content} stepOptional={2} />
 
-        <Grid container>
-          <>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="App ID"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
+      
 
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="App NO"
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="AY*"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="Class"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="Group"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="L2"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-            <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-              <TextField
-                fullWidth
-                id="outlined-number"
-                label="L3"
-                type="date"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-              />
-            </Grid>
-          </>
-        </Grid>
-
-      </CardComponent>
-
-      <CardComponent title={"Student Details"} >
-        <Grid container>
-          <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-            <TextField
-              fullWidth
-              id="outlined-number"
-              label="First Name"
-              type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-            <TextField
-              fullWidth
-              id="outlined-number"
-              label="Last Name"
-              type="text"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-          <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-            <FormControl fullWidth>
-              <InputLabel id="demo-simple-select-label">Age</InputLabel>
-              <Select
-                labelId="demo-simple-select-label"
-                id="demo-simple-select"
-                value={""}
-                label="Age"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                onChange={() => { }}
-              >
-                <MenuItem value={"MALE"}>MALE</MenuItem>
-                <MenuItem value={"FEMALE"}>FEMALE</MenuItem>
-                <MenuItem value={"OTHERS"}>OTHERS</MenuItem>
-              </Select>
-            </FormControl>
-          </Grid>
-          <Grid item xs={6} md={3} lg={3} xl={3} sx={{ px: 1, py: 1 }}>
-            <TextField
-              fullWidth
-              sx={{ px: 0, py: 1 }}
-              id="outlined-number"
-              label="Date of Birth"
-              type="date"
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
-          </Grid>
-        </Grid>
-      </CardComponent>
-      <CardComponent title={"Parent Details"} >
-        <ParentForm data={{}} handlePhoneChange={(value) => setPhoneNumber(value)} />
-      </CardComponent>
-      <CardComponent title={"Sibling Details"} doSomething={<>
-        <Button variant='outlined' color='secondary' onClick={() => {
-          const temp = [...siblingCount]
-          temp.push(temp[temp.length - 1] + 1)
-          setSiblingCount(temp)
-        }}>Add</Button>
-      </>} >
-        {
-          siblingCount.map((item, index) => {
-            return <SiblingDetailsForm />
-          })
-        }
-
-      </CardComponent>
-      <CardComponent title={"Address Details"} doSomething={<>
-        <FormControlLabel
-          control={<Switch checked={checked} onChange={() => setChecked(!checked)} />}
-          label="Same CA"
-        />
-      </>}>
-        <AddressForm />
-        {
-          !checked && <Box sx={{ my: 2 }}>
-            <Typography style={{ marginBottom: 10 }} variant='h6'>
-              Permanent Address
-            </Typography>
-            <AddressForm />
-          </Box>
-        }
-      </CardComponent>
     </Page >
   );
 }

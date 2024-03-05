@@ -5,7 +5,7 @@ const CardComponent = (props) => {
     const { title, children, doSomething, aditionalTitle,shadow } = props
     return <>
 
-        <Card style={shadow && {boxShadow:"unset"}} sx={{my:1}}>
+        <Card style={{boxShadow:"unset"}} sx={{my:1}}>
             <CardHeader action={doSomething} subheader={aditionalTitle} title={title} />
             <CardContent>
                 {children}
